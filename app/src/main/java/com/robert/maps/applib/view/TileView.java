@@ -74,19 +74,22 @@ public class TileView extends View {
 		}
 
 		public void onScaleEnd() {
+		    return;
+/*
 			int zoom = 0;
 			if(mTileSource.ZOOM_MAXLEVEL == getZoomLevel() && mTouchScale > 1) {
 //				mPrevScaleFactor = mTouchScale;
 				return; 
 			} else if(mTouchScale > 1) {
 //				mPrevScaleFactor = 1.0;
-				zoom = getZoomLevel()+(int)Math.round(mTouchScale)-1;
+                zoom = getZoomLevel()+(int)Math.round(mTouchScale)-1;
 			} else {
 //				mPrevScaleFactor = 1.0;
 				zoom = getZoomLevel()-(int)Math.round(1/mTouchScale)+1;
 			}
 			
 			setZoomLevel(zoom);
+*/
 		}
 		
 	}
@@ -167,7 +170,7 @@ public class TileView extends View {
 				final GeoPoint newCenter = TileView.this.getProjection().fromPixels(e.getX(), e.getY());
 				setMapCenter(newCenter);
 
-				setZoomLevel(getZoomLevel() + 1);
+				setZoomLevel(getZoomLevel() + 1, true);
 			}
 
 			return true;
@@ -300,7 +303,7 @@ public class TileView extends View {
 		
 		mTileOverlay.setTileSource(tileSource);
 		
-		setZoomLevel(getZoomLevel());
+		setZoomLevel(getZoomLevel(), false);
 		invalidate();
 	}
 	
@@ -348,13 +351,15 @@ public class TileView extends View {
 			return getZoomLevel()-Math.round(1/mTouchScale)+1;
 	}
 	
-	public void setZoomLevel(final int zoom) {
+	public void setZoomLevel(final int zoom, boolean reset) {
 		if(mTileSource == null) 
 			mZoom = zoom;
 		else
 			mZoom = Math.max(mTileSource.ZOOM_MINLEVEL, Math.min(mTileSource.ZOOM_MAXLEVEL, zoom));
-		
-		mTouchScale = 1;
+
+		if(reset) {
+            mTouchScale = 1;
+        }
 		
 		if(mMoveListener != null)
 			mMoveListener.onZoomDetected();

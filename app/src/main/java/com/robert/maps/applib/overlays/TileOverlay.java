@@ -189,7 +189,7 @@ public class TileOverlay extends TileViewOverlay implements OpenStreetMapConstan
 				mTileSource.postIndex();
 				
 				if(!mAsOverlay) {
-					mTileView.setZoomLevel(mTileView.getZoomLevel());
+					mTileView.setZoomLevel(mTileView.getZoomLevel(), true);
 					if(mMoveListener != null)
 						mMoveListener.onZoomDetected();
 				}

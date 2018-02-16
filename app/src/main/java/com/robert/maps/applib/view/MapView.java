@@ -144,15 +144,15 @@ public class MapView extends RelativeLayout {
 		}
 
 		public void setZoom(int zoom) {
-			mTileView.setZoomLevel(zoom);
+			mTileView.setZoomLevel(zoom, false);
 		}
 
 		public void zoomOut() {
-			mTileView.setZoomLevel(mTileView.getZoomLevel() - 1);
+			mTileView.setZoomLevel(mTileView.getZoomLevel() - 1, true);
 		}
 
 		public void zoomIn() {
-			mTileView.setZoomLevel(mTileView.getZoomLevel() + 1);
+			mTileView.setZoomLevel(mTileView.getZoomLevel() + 1, true);
 		}
 }
 
@@ -208,7 +208,7 @@ public class MapView extends RelativeLayout {
         ivZoomIn.setOnClickListener(new OnClickListener(){
 			// @Override
 			public void onClick(View v) {
-				mTileView.setZoomLevel(mTileView.getZoomLevel() + 1);
+				mTileView.setZoomLevel(mTileView.getZoomLevel() + 1, true);
 				if(mMoveListener != null)
 					mMoveListener.onZoomDetected();
 			}
@@ -219,7 +219,7 @@ public class MapView extends RelativeLayout {
 				SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
 				final int zoom = Integer.parseInt(pref.getString("pref_zoommaxlevel", "17"));
 				if (zoom > 0) {
-					mTileView.setZoomLevel(zoom - 1);
+					mTileView.setZoomLevel(zoom - 1, true);
 					if(mMoveListener != null)
 						mMoveListener.onZoomDetected();
 				}
@@ -248,7 +248,7 @@ public class MapView extends RelativeLayout {
         ivZoomOut.setOnClickListener(new OnClickListener(){
 			// @Override
 			public void onClick(View v) {
-				mTileView.setZoomLevel(mTileView.getZoomLevel() - 1);
+				mTileView.setZoomLevel(mTileView.getZoomLevel() - 1, true);
 				if(mMoveListener != null)
 					mMoveListener.onZoomDetected();
 			}
@@ -259,7 +259,7 @@ public class MapView extends RelativeLayout {
 				SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
 				final int zoom = Integer.parseInt(pref.getString("pref_zoomminlevel", "10"));
 				if (zoom > 0) {
-					mTileView.setZoomLevel(zoom - 1);
+					mTileView.setZoomLevel(zoom - 1, true);
 					if(mMoveListener != null)
 						mMoveListener.onZoomDetected();
 				}

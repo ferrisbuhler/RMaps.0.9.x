@@ -654,7 +654,7 @@ public class MainActivity extends Activity {
 
 			final TextView rightText = (TextView) findViewById(R.id.right_text);
 			if(rightText != null){
-				final double zoom = mMap.getZoomLevelScaled();
+				final double zoom = mMap.getZoomLevel();
 				if(zoom > mMap.getTileSource().ZOOM_MAXLEVEL) {
 					rightText.setText(""+(mMap.getTileSource().ZOOM_MAXLEVEL+1)+"+");
 					if(mIndicatorManager != null)

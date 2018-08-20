@@ -22,6 +22,7 @@ import com.robert.maps.applib.reflection.VerGestureDetector;
 import com.robert.maps.applib.reflection.VerScaleGestureDetector;
 import com.robert.maps.applib.overlays.TileOverlay;
 import com.robert.maps.applib.tileprovider.TileSource;
+import com.robert.maps.applib.utils.Ut;
 
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
@@ -32,7 +33,10 @@ import java.util.List;
 
 public class TileView extends View {
 	private static final int LATITUDE = 0;
-	private static final int LONGITUDE = 1;
+    private static final int LONGITUDE = 1;
+
+    private static final double START_TOUCH_SCALE = 2.5;
+    private static final double MIN_TOUCH_SCALE = 1;
 
 	public int mLatitudeE6 = 0, mLongitudeE6 = 0;
 	private double mOffsetLat, mOffsetLon;
@@ -45,9 +49,10 @@ public class TileView extends View {
 	
 	private boolean mStopProcessing;
 	private boolean mSetOffsetMode;
-	
-	public double mTouchScale = 1;
-	
+
+    public double mTouchScale = START_TOUCH_SCALE;
+    private double mPrevScaleFactor = START_TOUCH_SCALE;
+
 	private TileSource mTileSource;
 	//private TileMapHandler mTileMapHandler = new TileMapHandler();
 	protected final List<TileViewOverlay> mOverlays = new ArrayList<TileViewOverlay>();
@@ -57,24 +62,28 @@ public class TileView extends View {
 	private VerScaleGestureDetector mScaleDetector = VerScaleGestureDetector.newInstance(getContext(), new ScaleListener());
 	
 	private class ScaleListener implements VerScaleGestureDetector.OnGestureListener {
-//		private double mPrevScaleFactor = 1.0;
 
 		public void onScale(double aScaleFactor) {
-			mTouchScale = aScaleFactor;
-			
-//			mTouchScale = mPrevScaleFactor + (aScaleFactor >= 1.0 ? (aScaleFactor /*- 1.0*/) : (1 - 1 / aScaleFactor));
-//			if(mTouchScale < 0.0)
-//				mTouchScale = - 1 / mTouchScale;
-//			Ut.e("aScaleFactor = "+aScaleFactor+" mTouchScale="+mTouchScale+" d="+(aScaleFactor >= 1.0 ? (aScaleFactor - 1.0) : (1 - 1 / aScaleFactor)));
-			
+            mTouchScale = mPrevScaleFactor + (aScaleFactor >= 1.0 ? (aScaleFactor - 1.0) : (1 - 1 / aScaleFactor));
+
+            if(mTouchScale < MIN_TOUCH_SCALE)
+                mTouchScale = MIN_TOUCH_SCALE;
+/*
+			if(mTouchScale < 0.0)
+				mTouchScale = - 1 / mTouchScale;
+*/
+            Ut.e("aScaleFactor = "+aScaleFactor+" mTouchScale="+mTouchScale+" d="+(aScaleFactor >= 1.0 ? (aScaleFactor - 1.0) : (1 - 1 / aScaleFactor)));
+//            System.out.println("aScaleFactor = "+aScaleFactor+" mTouchScale="+mTouchScale+" d="+(aScaleFactor >= 1.0 ? (aScaleFactor - 1.0) : (1 - 1 / aScaleFactor)));
+/*
 			if(mMoveListener != null)
 				mMoveListener.onZoomDetected();
-			
+*/
 			invalidate(); //postInvalidate();
 		}
 
 		public void onScaleEnd() {
-		    return;
+            System.out.println("mTouchScale="+mTouchScale);
+            mPrevScaleFactor = mTouchScale;
 /*
 			int zoom = 0;
 			if(mTileSource.ZOOM_MAXLEVEL == getZoomLevel() && mTouchScale > 1) {
@@ -358,7 +367,7 @@ public class TileView extends View {
 			mZoom = Math.max(mTileSource.ZOOM_MINLEVEL, Math.min(mTileSource.ZOOM_MAXLEVEL, zoom));
 
 		if(reset) {
-            mTouchScale = 1;
+            resetTouchScale();
         }
 		
 		if(mMoveListener != null)
@@ -366,7 +375,12 @@ public class TileView extends View {
 		
 		this.postInvalidate();
 	}
-	
+
+    public void resetTouchScale() {
+        mTouchScale = START_TOUCH_SCALE;
+        mPrevScaleFactor = START_TOUCH_SCALE;
+    }
+
 	public void setBearing(final float aBearing){
 		this.mBearing = aBearing;
 	}

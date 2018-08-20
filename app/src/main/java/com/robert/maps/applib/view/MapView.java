@@ -144,7 +144,7 @@ public class MapView extends RelativeLayout {
 		}
 
 		public void setZoom(int zoom) {
-			mTileView.setZoomLevel(zoom, true);
+			mTileView.setZoomLevel(zoom, false);
 		}
 
 		public void zoomOut() {

@@ -82,7 +82,7 @@ public class TileView extends View {
 		}
 
 		public void onScaleEnd() {
-            System.out.println("mTouchScale="+mTouchScale);
+//            System.out.println("mTouchScale="+mTouchScale);
             mPrevScaleFactor = mTouchScale;
 /*
 			int zoom = 0;

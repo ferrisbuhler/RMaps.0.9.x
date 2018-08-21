@@ -35,7 +35,6 @@ public class TileView extends View {
 	private static final int LATITUDE = 0;
     private static final int LONGITUDE = 1;
 
-    private static final double START_TOUCH_SCALE = 2.5;
     private static final double MIN_TOUCH_SCALE = 1;
 
 	public int mLatitudeE6 = 0, mLongitudeE6 = 0;
@@ -50,8 +49,9 @@ public class TileView extends View {
 	private boolean mStopProcessing;
 	private boolean mSetOffsetMode;
 
-    public double mTouchScale = START_TOUCH_SCALE;
-    private double mPrevScaleFactor = START_TOUCH_SCALE;
+    private final double mTouchScale_start;
+    public double mTouchScale;
+    private double mPrevScaleFactor;
 
 	private TileSource mTileSource;
 	//private TileMapHandler mTileMapHandler = new TileMapHandler();
@@ -229,7 +229,12 @@ public class TileView extends View {
 		
 		final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		mDrawTileGrid = pref.getBoolean("pref_drawtilegrid", false);
-		
+
+		Double touchScale_start_tmp = Double.parseDouble(pref.getString("pref_zoomscalelevel", "2.5"));
+		mTouchScale_start = (touchScale_start_tmp > 0) ? touchScale_start_tmp : 2.5;
+        mTouchScale = mTouchScale_start;
+        mPrevScaleFactor = mTouchScale_start;
+
 		mSetOffsetMode = false;
 
 		setFocusable(true);
@@ -377,8 +382,8 @@ public class TileView extends View {
 	}
 
     public void resetTouchScale() {
-        mTouchScale = START_TOUCH_SCALE;
-        mPrevScaleFactor = START_TOUCH_SCALE;
+        mTouchScale = mTouchScale_start;
+        mPrevScaleFactor = mTouchScale_start;
     }
 
 	public void setBearing(final float aBearing){

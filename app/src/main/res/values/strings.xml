@@ -19,6 +19,10 @@
     <string name="pref_zoomminlevel">Favourite min zoom</string>
     <string name="pref_zoommaxlevel_summary">Set this zoom level at long press on plus button</string>
     <string name="pref_zoommaxlevel">Favourite max zoom</string>
+    <string name="pref_zoomscalelevel_summary">Display the map using this zoom scale initially.\n
+Useful to improve the readability of details or names on smaller displays.
+    </string>
+    <string name="pref_zoomscalelevel">Favourite display zoom scale</string>
     <string name="prefcat_main_misc">Misc</string>
     <string name="pref_accuracy_summary">Show blue disk indicator like Google Map</string>
     <string name="pref_accuracy">Accuracy indicator</string>

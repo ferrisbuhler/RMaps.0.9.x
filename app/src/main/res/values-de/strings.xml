@@ -19,6 +19,10 @@
   <string name="pref_zoomminlevel">Bevorzugte minimale Zoomstufe</string>
   <string name="pref_zoommaxlevel_summary">Zoomstufe durch langen Druck auf Plustaste festlegen</string>
   <string name="pref_zoommaxlevel">Bevorzugte maximale Zoomstufe</string>
+  <string name="pref_zoomscalelevel_summary">Die Karte wird standardmäßig mit diesem Zoom-Faktor dargestellt.
+    Hilfreich für besseren Lesbarkeit von Kartendetails und Beschriftungen bei kleinen Displays.
+  </string>
+  <string name="pref_zoomscalelevel">Bevorzugter Zoom-Faktor</string>
   <string name="prefcat_main_misc">Sonstiges</string>
   <string name="pref_accuracy_summary">Zeige blauen Genauigkeitsanzeiger wie in Google Maps</string>
   <string name="pref_accuracy">Genauigkeitsanzeiger</string>
